@@ -13,7 +13,7 @@ class OrderApiTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /**
-     * A basic feature test example.
+     * Create a order.
      *
      * @return void
      */
@@ -59,5 +59,58 @@ class OrderApiTest extends TestCase
         $this->assertDatabaseHas('order_product', [
             'product_id' => $product->id
         ]);
+    }
+
+    /**
+     * Create a order fail by unauthorized.
+     *
+     * @return void
+     */
+    public function test_post_to_create_order_fail_by_unauthorized()
+    {
+        $product = Product::factory()->create();
+        $data = [
+            'customer_name' => $this->faker->name,
+            'customer_email' => $this->faker->email(),
+            'customer_mobile' => $this->faker->phoneNumber(),
+            'product_id' => $product->id,
+        ];
+
+        $response = $this->postJson('/order', $data);
+        $response->assertUnauthorized();
+
+        $this->assertDatabaseMissing('orders',  [
+            'customer_name' => $data['customer_name'],
+            'customer_email' => $data['customer_email'],
+            'customer_mobile' => $data['customer_mobile'],
+        ]);
+        $this->assertDatabaseMissing('order_product', [
+            'product_id' => $product->id
+        ]);
+    }
+
+    /**
+     * Create a order fail by validations.
+     *
+     * @return void
+     */
+    public function test_post_to_create_order_fail_by_validations()
+    {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
+        $data = [];
+
+        $response = $this->postJson('/order', $data);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'customer_name',
+            'customer_email',
+            'customer_mobile',
+            'product_id',
+        ], 'error');
+
+        $this->assertDatabaseCount('orders', 0);
     }
 }
