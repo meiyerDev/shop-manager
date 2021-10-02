@@ -5,6 +5,7 @@ namespace Tests\Feature\Product;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class ProductApiTest extends TestCase
@@ -18,6 +19,9 @@ class ProductApiTest extends TestCase
      */
     public function test_get_all_products()
     {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
         $products = Product::factory()->count(10)->create();
 
         $response = $this->getJson('/products');

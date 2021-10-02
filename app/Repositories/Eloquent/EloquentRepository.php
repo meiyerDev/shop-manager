@@ -6,7 +6,7 @@ use App\Repositories\EloquentRepositoryContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class EloquentRepository implements EloquentRepositoryContract
+abstract class EloquentRepository implements EloquentRepositoryContract
 {
     /** @var Model */
     protected $model;

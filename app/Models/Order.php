@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -22,6 +23,20 @@ class Order extends Model
         'customer_email',
         'customer_mobile'
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        parent::creating(function ($model) {
+            $model->code = Str::uuid()->toString();
+        });
+    }
 
     public function user()
     {
