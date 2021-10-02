@@ -25,4 +25,16 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     {
         return $this->model->paginate($limit);
     }
+
+    /**
+     * Find data by primary key or fail
+     * 
+     * @param int $primary
+     * @return Model
+     * @throws ModelNotFoundException
+     */
+    public function findOrFail(int $primary): Model
+    {
+        return $this->model->findOrFail($primary);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Order;
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +14,7 @@ class OrderApiTest extends TestCase
     use WithFaker, RefreshDatabase;
 
     /**
-     * Create a order.
+     * Create an order.
      *
      * @return void
      */
@@ -62,7 +63,7 @@ class OrderApiTest extends TestCase
     }
 
     /**
-     * Create a order fail by unauthorized.
+     * Create an order fail by unauthorized.
      *
      * @return void
      */
@@ -90,7 +91,7 @@ class OrderApiTest extends TestCase
     }
 
     /**
-     * Create a order fail by validations.
+     * Create an order fail by validations.
      *
      * @return void
      */
@@ -112,5 +113,62 @@ class OrderApiTest extends TestCase
         ], 'error');
 
         $this->assertDatabaseCount('orders', 0);
+    }
+
+    /**
+     * Return an order data
+     * 
+     * @return void
+     */
+    public function test_get_order_data_by_id()
+    {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
+        $order = Order::factory()
+            ->for($user)
+            ->hasProducts()
+            ->create();
+
+        $response = $this->getJson("/order/{$order->id}");
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'code',
+                'customer_name',
+                'customer_email',
+                'customer_mobile',
+                'status',
+                'products' => [
+                    [
+                        'id',
+                        'name',
+                        'price'
+                    ]
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Return an order data fail by forbidden
+     * 
+     * @return void
+     */
+    public function test_get_order_data_by_id_fail_by_forbidden()
+    {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
+        $order = Order::factory()
+            ->forUser()
+            ->hasProducts()
+            ->create();
+
+        $response = $this->getJson("/order/{$order->id}");
+
+        $response->assertForbidden();
     }
 }

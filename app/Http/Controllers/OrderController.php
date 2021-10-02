@@ -42,4 +42,19 @@ class OrderController extends Controller
             Response::HTTP_CREATED
         );
     }
+
+    /**
+     * Show an order data
+     * 
+     * @param int $order
+     */
+    public function show(int $order)
+    {
+        $order = $this->orderRepository->findOrFail($order);
+        $this->authorize('view', $order);
+
+        return $this->successResponse(
+            OrderResource::make($order->loadMissing('products'))
+        );
+    }
 }

@@ -17,4 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products', 'ProductController@index');
     Route::post('/order', 'OrderController@store');
+    Route::get('/order/{orderId}', 'OrderController@show');
 });
