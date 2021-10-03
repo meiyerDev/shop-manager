@@ -34,7 +34,7 @@ class Order extends Model
         parent::boot();
 
         parent::creating(function ($model) {
-            $model->code = Str::uuid()->toString();
+            $model->code ??= Str::uuid()->toString();
         });
     }
 
@@ -47,5 +47,10 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)
             ->withTimestamps();;
+    }
+
+    public function placetoPays()
+    {
+        return $this->hasMany(PlacetoPay::class);
     }
 }
