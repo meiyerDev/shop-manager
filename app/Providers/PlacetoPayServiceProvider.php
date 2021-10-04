@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Dnetix\Redirection\PlacetoPay;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Tests\Mocks\PlacetoPay\RestCarrierMock;
 
@@ -20,7 +21,9 @@ class PlacetoPayServiceProvider extends ServiceProvider
             /** @param \Illuminate\Contracts\Foundation\Application $app */
             function (\Illuminate\Contracts\Foundation\Application $app) {
                 $config = config('placetoPay.auth');
-                if ($app->environment() === 'testing') $config['handler'] = RestCarrierMock::instance();
+
+                if ($app->environment() === 'testing') $config['client'] = RestCarrierMock::client();
+
                 return new PlacetoPay($config);
             }
         );

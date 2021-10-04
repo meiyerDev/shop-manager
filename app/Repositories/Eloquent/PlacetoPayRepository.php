@@ -15,9 +15,13 @@ class PlacetoPayRepository extends EloquentRepository implements PlacetoPayRepos
     /** @var Request */
     private $request;
 
-    function __construct(PlacetoPay $placetoPayModel)
+    /** @var Redirection\PlacetoPay */
+    private $placetoPayRedirection;
+
+    function __construct(PlacetoPay $placetoPayModel, Redirection\PlacetoPay $placetoPayRedirection)
     {
         $this->request = request();
+        $this->placetoPayRedirection = $placetoPayRedirection;
 
         parent::__contruct($placetoPayModel);
     }
@@ -33,12 +37,14 @@ class PlacetoPayRepository extends EloquentRepository implements PlacetoPayRepos
         return DB::transaction(function () use ($order) {
             $products = $order->products;
 
+            $reference = 'ORDER_' . time();
+            $dataToRoutes = ['orderId' => $order->id, 'referenceId' => $reference];
             $placetoPayModel = $order->placetoPays()->make([
                 'locale' => 'es_CO',
-                'reference' => 'ORDER_' . time(),
+                'reference' => $reference,
                 'expiration' => Carbon::now()->addDays(2),
-                'return_url' => route('placetoPay.successful', $order->id),
-                'cancel_url' => route('placetoPay.canceled', $order->id),
+                'return_url' => route('api.order.placeto-pay.successful', $dataToRoutes),
+                'cancel_url' => route('api.order.placeto-pay.canceled', $dataToRoutes),
                 'ip_address' => $this->request->ip(),
                 'user_agent' => $this->request->userAgent(),
             ]);
@@ -60,9 +66,7 @@ class PlacetoPayRepository extends EloquentRepository implements PlacetoPayRepos
                 'mobile' => $order->customer_mobile
             ];
 
-            $placetoPayRedirection = new Redirection\PlacetoPay(config('placetoPay.auth'));
-
-            $response = $placetoPayRedirection->request([
+            $response = $this->placetoPayRedirection->request([
                 'payment' => $placetoPayModel->data_payment,
                 'buyer' => $placetoPayModel->data_buyer,
                 'expiration' => $placetoPayModel->expiration,
@@ -89,11 +93,35 @@ class PlacetoPayRepository extends EloquentRepository implements PlacetoPayRepos
                 ];
             }
 
-            dd($response->status());
-
             return [
                 'message' => $response->status()->message(),
             ];
         });
+    }
+
+    /**
+     * Update order by placeto pay status
+     * 
+     * @param Order $order
+     * @param string $referenceId
+     * @return string
+     */
+    public function updateOrderByPlacetoPay(Order $order, string $referenceId): string
+    {
+        $placetoPayModel = $order->findPlacetoPlayByReferenceId($referenceId);
+        $response = $this->placetoPayRedirection->query($placetoPayModel->request_id);
+
+        if ($response->isSuccessful()) {
+            if ($response->status()->isApproved()) {
+                $order->update([
+                    'status' => Order::STATUS_PAYED
+                ]);
+                return route('web.placeto-pay.successful', $order->id);
+            }
+
+            return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => 'pending']);
+        }
+
+        return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => 'failed']);
     }
 }

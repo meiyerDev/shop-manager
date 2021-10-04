@@ -10,6 +10,10 @@ class Order extends Model
 {
     use HasFactory;
 
+    const STATUS_CREATED = 'CREATED';
+    const STATUS_PAYED = 'PAYED';
+    const STATUS_REJECTED = 'REJECTED';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -52,5 +56,16 @@ class Order extends Model
     public function placetoPays()
     {
         return $this->hasMany(PlacetoPay::class);
+    }
+
+    # Methods
+    public function latestPlacetoPay()
+    {
+        return $this->placetoPays->last();
+    }
+
+    public function findPlacetoPlayByReferenceId(string $referenceId)
+    {
+        return $this->placetoPays->firstWhere('reference', $referenceId);
     }
 }

@@ -26,6 +26,7 @@ class CreatePlacetoPaysTable extends Migration
             $table->string('cancel_url');
             $table->string('ip_address');
             $table->string('user_agent');
+            $table->string('process_url');
             $table->timestamps();
         });
     }

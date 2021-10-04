@@ -3,13 +3,12 @@
 namespace Tests\Feature\Order;
 
 use App\Models\Order;
+use App\Models\PlacetoPay;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
-
-use function PHPSTORM_META\map;
 
 class OrderPlacetoPayTest extends TestCase
 {
@@ -24,17 +23,6 @@ class OrderPlacetoPayTest extends TestCase
     {
         $user = $this->createUserClient();
         Sanctum::actingAs($user);
-
-        Http::fake([
-            config('placetoPay.auth.baseUrl') . 'api/session' => Http::response(
-                json_decode(
-                    file_get_contents(
-                        base_path('tests/data/PlacetoPay/api_session_response_200.json')
-                    ),
-                    true
-                )
-            )
-        ]);
 
         $order = Order::factory()
             ->for($user)
@@ -54,6 +42,44 @@ class OrderPlacetoPayTest extends TestCase
 
         $this->assertDatabaseHas('placeto_pays', [
             'order_id' => $order->id
+        ]);
+    }
+
+    /**
+     * Update placetoPay status by reference
+     */
+    public function test_update_status_by_reference()
+    {
+        $placetoPayModel = PlacetoPay::factory()->create();
+        $user = $placetoPayModel->order->user;
+        Sanctum::actingAs($user);
+
+        $response = $this->post($placetoPayModel->return_url);
+
+        $response->assertRedirect(route('web.placeto-pay.successful', $placetoPayModel->order_id));
+        $this->assertDatabaseHas('orders', [
+            'id' => $placetoPayModel->order_id,
+            'status' => Order::STATUS_PAYED
+        ]);
+    }
+
+    /**
+     * Update placetoPay status by reference fail by reference not found
+     */
+    public function test_update_status_by_reference_fail_by_reference_not_found()
+    {
+        $placetoPayModel = PlacetoPay::factory()->create([
+            'request_id' => 90000
+        ]);
+        $user = $placetoPayModel->order->user;
+        Sanctum::actingAs($user);
+
+        $response = $this->post($placetoPayModel->return_url);
+
+        $response->assertRedirect(route('web.placeto-pay.retry', ['orderId' => $placetoPayModel->order_id, 'reason' => 'failed']));
+        $this->assertDatabaseHas('orders', [
+            'id' => $placetoPayModel->order_id,
+            'status' => Order::STATUS_CREATED
         ]);
     }
 }

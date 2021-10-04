@@ -26,6 +26,7 @@ class PlacetoPay extends Model
         'cancel_url',
         'ip_address',
         'user_agent',
+        'process_url',
     ];
 
     /**

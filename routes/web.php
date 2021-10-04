@@ -17,5 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/order/{orderId}/placeto-pay/successful', 'welcome')->name('placetoPay.successful');
-Route::view('/order/{orderId}/placeto-pay/canceled', 'welcome')->name('placetoPay.canceled');
+Route::view('/order/{orderId}/placeto-pay/successful', 'welcome')->name('web.placeto-pay.successful');
+Route::view('/order/{orderId}/placeto-pay/canceled', 'welcome')->name('web.placeto-pay.canceled');
+Route::view('/order/{orderId}/placeto-pay/retry', 'welcome')->name('web.placeto-pay.retry');

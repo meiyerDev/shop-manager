@@ -55,11 +55,11 @@ class RestCarrierMock
 
         $path = $request->getUri()->getPath();
         switch ($path) {
-            case '/api/session':
+            case '/redirection/api/session':
                 return $this->createSession();
-            case '/api/reverse':
+            case '/redirection/api/reverse':
                 return $this->reverse();
-            case '/api/collect':
+            case '/redirection/api/collect':
                 return $this->collect();
             default:
                 if (preg_match('/api\/session\/(\d+)/', $path, $matches)) {
