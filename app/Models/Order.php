@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -56,6 +57,12 @@ class Order extends Model
     public function placetoPays()
     {
         return $this->hasMany(PlacetoPay::class);
+    }
+
+    # Scopes
+    public function scopeOnlyAuth($query)
+    {
+        return $query->where('user_id', Auth::id());
     }
 
     # Assesors

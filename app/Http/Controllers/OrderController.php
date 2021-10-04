@@ -25,7 +25,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('products')->paginate();
+        $orders = Order::onlyAuth()->with('products')->paginate();
 
         return $this->successResponse(
             new OrderResourceCollection($orders)
