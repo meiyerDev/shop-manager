@@ -14,7 +14,11 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'price'];
+    protected $fillable = [
+        'sku',
+        'name',
+        'price'
+    ];
 
     public function orders()
     {
