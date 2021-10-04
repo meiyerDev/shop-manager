@@ -58,6 +58,12 @@ class Order extends Model
         return $this->hasMany(PlacetoPay::class);
     }
 
+    # Assesors
+    public function getAmountTotalAttribute()
+    {
+        return $this->products->sum('price');
+    }
+
     # Methods
     public function latestPlacetoPay()
     {

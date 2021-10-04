@@ -31,7 +31,7 @@ class OrderApiTest extends TestCase
             'product_id' => $product->id,
         ];
 
-        $response = $this->postJson('/order', $data);
+        $response = $this->postJson(route('api.order.create'), $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -77,7 +77,7 @@ class OrderApiTest extends TestCase
             'product_id' => $product->id,
         ];
 
-        $response = $this->postJson('/order', $data);
+        $response = $this->postJson(route('api.order.create'), $data);
         $response->assertUnauthorized();
 
         $this->assertDatabaseMissing('orders',  [
@@ -102,7 +102,7 @@ class OrderApiTest extends TestCase
 
         $data = [];
 
-        $response = $this->postJson('/order', $data);
+        $response = $this->postJson(route('api.order.create'), $data);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors([
@@ -130,7 +130,7 @@ class OrderApiTest extends TestCase
             ->hasProducts()
             ->create();
 
-        $response = $this->getJson("/order/{$order->id}");
+        $response = $this->getJson(route('api.order.show', $order->id));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -167,8 +167,49 @@ class OrderApiTest extends TestCase
             ->hasProducts()
             ->create();
 
-        $response = $this->getJson("/order/{$order->id}");
+        $response = $this->getJson(route('api.order.show', $order->id));
 
         $response->assertForbidden();
+    }
+
+    /**
+     * Return all user's order 
+     */
+    public function test_get_all_order_from_user()
+    {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
+        Order::factory()
+            ->forUser()
+            ->hasProducts()
+            ->count(6)
+            ->create();
+
+        $response = $this->getJson(route('api.order.index'));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'data' => [
+                    [
+                        'id',
+                        'code',
+                        'customer_name',
+                        'customer_email',
+                        'customer_mobile',
+                        'status',
+                        'amount_total',
+                        'products' => [
+                            [
+                                'id',
+                                'name',
+                                'price'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Order\CreateOrderRequest;
+use App\Http\Resources\Collections\OrderResourceCollection;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 use App\Repositories\OrderRepositoryContract;
@@ -17,6 +18,18 @@ class OrderController extends Controller
     function __construct(OrderRepositoryContract $orderRepository)
     {
         $this->orderRepository = $orderRepository;
+    }
+
+    /**
+     * Return all orders by auth
+     */
+    public function index()
+    {
+        $orders = Order::with('products')->paginate();
+
+        return $this->successResponse(
+            new OrderResourceCollection($orders)
+        );
     }
 
     /**

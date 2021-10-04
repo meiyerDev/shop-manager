@@ -22,6 +22,7 @@ class OrderResource extends JsonResource
             'customer_email' => $this->customer_email,
             'customer_mobile' => $this->customer_mobile,
             'status' => $this->status,
+            'amount_total' => $this->amount_total,
             'products' => new ProductResourceCollection($this->whenLoaded('products')),
             'created_at' => $this->created_at->format('d-m-Y'),
             'updated_at' => $this->updated_at->format('d-m-Y'),
