@@ -14,6 +14,18 @@ class OrderRepository extends EloquentRepository implements OrderRepositoryContr
     }
 
     /**
+     * Find order by primary key or fail
+     * 
+     * @param int $primary
+     * @return Order
+     * @throws ModelNotFoundException
+     */
+    public function findOrFail(int $primary): Order
+    {
+        return $this->model->with('products')->findOrFail($primary);
+    }
+
+    /**
      * Create a new order
      * 
      * @param array $data

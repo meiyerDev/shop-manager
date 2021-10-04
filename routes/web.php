@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::view('/order/{orderId}/placeto-pay/successful', 'welcome')->name('placetoPay.successful');
+Route::view('/order/{orderId}/placeto-pay/canceled', 'welcome')->name('placetoPay.canceled');

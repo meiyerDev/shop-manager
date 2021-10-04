@@ -18,6 +18,7 @@ class CreatePlacetoPaysTable extends Migration
             $table->string('locale');
             $table->foreignId('order_id')->constrained('orders');
             $table->string('request_id')->unique();
+            $table->string('reference');
             $table->longText('data_payment');
             $table->longText('data_buyer');
             $table->dateTime('expiration');

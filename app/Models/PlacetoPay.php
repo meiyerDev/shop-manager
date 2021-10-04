@@ -21,7 +21,7 @@ class PlacetoPay extends Model
         'reference',
         'data_payment',
         'data_buyer',
-        'expration',
+        'expiration',
         'return_url',
         'cancel_url',
         'ip_address',
