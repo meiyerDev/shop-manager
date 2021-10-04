@@ -61,8 +61,16 @@ class OrderPlacetoPayController extends Controller
     /**
      * Receive user from placetoPay flow canceled
      */
-    public function receivedcanceled()
-    {
-        # code...
+    public function receivedcanceled(
+        int $orderId,
+        string $referenceId
+    ) {
+        /** @var Order */
+        $order = $this->orderRepository->findOrFail($orderId);
+        $this->authorize('view', $order);
+
+        $route = $this->placetoPayRepository->cancelOrderByPlacetoPay($order, $referenceId);
+
+        return redirect()->to($route);
     }
 }

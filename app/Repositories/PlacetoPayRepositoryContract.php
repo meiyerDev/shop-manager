@@ -22,4 +22,13 @@ interface PlacetoPayRepositoryContract extends EloquentRepositoryContract
      * @return string
      */
     public function updateOrderByPlacetoPay(Order $order, string $referenceId): string;
+
+    /**
+     * Cancel order by placeto pay status
+     * 
+     * @param Order $order
+     * @param string $referenceId
+     * @return string
+     */
+    public function cancelOrderByPlacetoPay(Order $order, string $referenceId): string;
 }

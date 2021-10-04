@@ -124,4 +124,28 @@ class PlacetoPayRepository extends EloquentRepository implements PlacetoPayRepos
 
         return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => 'failed']);
     }
+
+    /**
+     * Cancel order by placeto pay status
+     * 
+     * @param Order $order
+     * @param string $referenceId
+     * @return string
+     */
+    public function cancelOrderByPlacetoPay(Order $order, string $referenceId): string
+    {
+        $placetoPayModel = $order->findPlacetoPlayByReferenceId($referenceId);
+        $response = $this->placetoPayRedirection->query($placetoPayModel->request_id);
+
+        if ($response->isSuccessful()) {
+            if ($response->status()->isRejected()) {
+                $order->update([
+                    'status' => Order::STATUS_REJECTED
+                ]);
+                return route('web.placeto-pay.canceled', $order->id);
+            }
+        }
+
+        return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => 'canceled']);
+    }
 }
