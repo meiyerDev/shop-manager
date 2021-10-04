@@ -5,12 +5,24 @@ namespace App\Repositories\Eloquent;
 use App\Models\Order;
 use App\Models\Product;
 use App\Repositories\OrderRepositoryContract;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderRepository extends EloquentRepository implements OrderRepositoryContract
 {
     function __construct(Order $model)
     {
         parent::__contruct($model);
+    }
+
+    /**
+     * Return all paginateds
+     * @param int $userId
+     * @param int $limit
+     * @return LengthAwarePaginator
+     */
+    public function getOnlyUserPaginated(int $userId, int $limit): LengthAwarePaginator
+    {
+        return $this->model->onlyUser($userId)->paginate($limit);
     }
 
     /**

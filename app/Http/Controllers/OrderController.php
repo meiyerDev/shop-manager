@@ -7,6 +7,7 @@ use App\Http\Resources\Collections\OrderResourceCollection;
 use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 use App\Repositories\OrderRepositoryContract;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,9 +24,12 @@ class OrderController extends Controller
     /**
      * Return all orders by auth
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::onlyAuth()->with('products')->paginate();
+        $orders = $this->orderRepository->getOnlyUserPaginated(
+            Auth::id(),
+            (int) $request->query('limit', 15)
+        );
 
         return $this->successResponse(
             new OrderResourceCollection($orders)

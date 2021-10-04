@@ -181,7 +181,7 @@ class OrderApiTest extends TestCase
         Sanctum::actingAs($user);
 
         Order::factory()
-            ->forUser()
+            ->for($user)
             ->hasProducts()
             ->count(6)
             ->create();

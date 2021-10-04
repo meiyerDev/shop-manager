@@ -60,9 +60,9 @@ class Order extends Model
     }
 
     # Scopes
-    public function scopeOnlyAuth($query)
+    public function scopeOnlyUser($query, int $userId)
     {
-        return $query->where('user_id', Auth::id());
+        return $query->where('user_id', $userId);
     }
 
     # Assesors
