@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::view('/order/{orderId}/placeto-pay/successful', 'spa')->name('web.placeto-pay.successful');
 Route::view('/order/{orderId}/placeto-pay/canceled', 'spa')->name('web.placeto-pay.canceled');
 Route::view('/order/{orderId}/placeto-pay/retry', 'spa')->name('web.placeto-pay.retry');
-Route::view('/{any}', 'spa')->where('any', '.*');
+Route::view('/{any}', 'spa')->where('any', '^(?!api).*');

@@ -7,6 +7,7 @@ use App\Repositories\OrderRepositoryContract;
 use App\Repositories\PlacetoPayRepositoryContract;
 use Illuminate\Http\Response;
 use Dnetix\Redirection;
+use Illuminate\Support\Facades\Auth;
 
 class OrderPlacetoPayController extends Controller
 {
@@ -51,6 +52,8 @@ class OrderPlacetoPayController extends Controller
     ) {
         /** @var Order */
         $order = $this->orderRepository->findOrFail($orderId);
+
+        Auth::login($order->user);
         $this->authorize('view', $order);
 
         $route = $this->placetoPayRepository->updateOrderByPlacetoPay($order, $referenceId);
@@ -67,6 +70,8 @@ class OrderPlacetoPayController extends Controller
     ) {
         /** @var Order */
         $order = $this->orderRepository->findOrFail($orderId);
+
+        Auth::login($order->user);
         $this->authorize('view', $order);
 
         $route = $this->placetoPayRepository->cancelOrderByPlacetoPay($order, $referenceId);

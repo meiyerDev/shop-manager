@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders/{orderId}', 'OrderController@show')->name('api.order.show');
 
     Route::post('/orders/{orderId}/placeto-pay', 'OrderPlacetoPayController@createPaymentRequest')->name('api.order.placeto-pay.generate');
-    Route::post('/orders/{orderId}/placeto-pay/{referenceId}/successful', 'OrderPlacetoPayController@receivedSuccessful')->name('api.order.placeto-pay.successful');
-    Route::post('/orders/{orderId}/placeto-pay/{referenceId}/canceled', 'OrderPlacetoPayController@receivedcanceled')->name('api.order.placeto-pay.canceled');
 });
+
+Route::get('/orders/{orderId}/placeto-pay/{referenceId}/successful', 'OrderPlacetoPayController@receivedSuccessful')->name('api.order.placeto-pay.successful');
+Route::get('/orders/{orderId}/placeto-pay/{referenceId}/canceled', 'OrderPlacetoPayController@receivedcanceled')->name('api.order.placeto-pay.canceled');
