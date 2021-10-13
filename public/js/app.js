@@ -10594,11 +10594,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ACTION_ADD_FIELDS_TO_FORM_CREATE_ORDER": () => (/* binding */ ACTION_ADD_FIELDS_TO_FORM_CREATE_ORDER),
 /* harmony export */   "ACTION_ADD_ORDER": () => (/* binding */ ACTION_ADD_ORDER),
-/* harmony export */   "ADD_ERROR_BY_VALIDATION": () => (/* binding */ ADD_ERROR_BY_VALIDATION)
+/* harmony export */   "ADD_ERROR_BY_VALIDATION": () => (/* binding */ ADD_ERROR_BY_VALIDATION),
+/* harmony export */   "ACTION_ADD_ORDERS_LIST": () => (/* binding */ ACTION_ADD_ORDERS_LIST)
 /* harmony export */ });
 var ACTION_ADD_FIELDS_TO_FORM_CREATE_ORDER = 'ORDER/ACTION_ADD_FIELDS_TO_FORM_CREATE_ORDER';
 var ACTION_ADD_ORDER = 'ORDER/ACTION_ADD_ORDER';
 var ADD_ERROR_BY_VALIDATION = 'ORDER/ADD_ERROR_BY_VALIDATION';
+var ACTION_ADD_ORDERS_LIST = 'ORDER/ACTION_ADD_ORDERS_LIST';
 
 /***/ }),
 
@@ -10852,7 +10854,7 @@ function orderReducer(state, action) {
 
     case _constants_order__WEBPACK_IMPORTED_MODULE_2__.ACTION_ADD_ORDER:
       return _objectSpread(_objectSpread({}, state), {}, {
-        orders: [].concat(_toConsumableArray(action.payload), _toConsumableArray(state.orders))
+        orders: [action.payload].concat(_toConsumableArray(state.orders))
       });
 
     case _constants_order__WEBPACK_IMPORTED_MODULE_2__.ADD_ERROR_BY_VALIDATION:
@@ -10860,7 +10862,7 @@ function orderReducer(state, action) {
         errors: _objectSpread(_objectSpread({}, state.errors), action.payload)
       });
 
-    case ACTION_ADD_ORDERS_LIST:
+    case _constants_order__WEBPACK_IMPORTED_MODULE_2__.ACTION_ADD_ORDERS_LIST:
       return _objectSpread(_objectSpread({}, state), {}, {
         orders: action.payload
       });
@@ -10977,7 +10979,7 @@ function OrderProvider(_ref) {
               case 2:
                 response = _context2.sent;
                 dispatch({
-                  type: ACTION_ADD_ORDERS_LIST,
+                  type: _constants_order__WEBPACK_IMPORTED_MODULE_2__.ACTION_ADD_ORDERS_LIST,
                   payload: response.data.data.data
                 });
 
@@ -11163,11 +11165,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _views_Home_HomeView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/Home/HomeView */ "./resources/js/views/Home/HomeView.jsx");
 /* harmony import */ var _views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/Orders/CreateOrderView */ "./resources/js/views/Orders/CreateOrderView.jsx");
 /* harmony import */ var _views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/Orders/ListOrdersView */ "./resources/js/views/Orders/ListOrdersView.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/Orders/ShowOrderView */ "./resources/js/views/Orders/ShowOrderView.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -11177,19 +11181,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Routes = function Routes() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Switch, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Switch, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
       path: "/",
       exact: true,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_views_Home_HomeView__WEBPACK_IMPORTED_MODULE_1__["default"], {})
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_views_Home_HomeView__WEBPACK_IMPORTED_MODULE_1__["default"], {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
       path: "/orders/create",
       exact: true,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
+      path: "/orders/:orderId",
+      exact: true,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
       path: "/orders",
       exact: true,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_3__["default"], {})
     })]
   });
 };
@@ -11579,57 +11587,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_order_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/order-context */ "./resources/js/contexts/order-context.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
+/* harmony import */ var _components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/Button/ButtonPrimary */ "./resources/js/components/Button/ButtonPrimary.jsx");
+/* harmony import */ var _contexts_order_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/order-context */ "./resources/js/contexts/order-context.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
+
+
+var ORDER_STATUS_NAMES = {
+  CREATED: 'pendiente',
+  PAYED: 'pagado',
+  REJECTED: 'rechazado'
+};
 
 var ListOrdersView = function ListOrdersView() {
-  var _useOrder = (0,_contexts_order_context__WEBPACK_IMPORTED_MODULE_1__.useOrder)(),
+  var _useOrder = (0,_contexts_order_context__WEBPACK_IMPORTED_MODULE_2__.useOrder)(),
       state = _useOrder.state,
       actions = _useOrder.actions;
 
+  var history = (0,react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_4__.useHistory)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     actions.getByAuth();
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "py-4 px-3 mt-4",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
-      className: "table-fixed border-collapse border w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-            className: "p-3 w-1/5",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+      className: "table-fixed border-collapse border w-full text-left",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-2/5",
             children: "Code"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-            className: "p-3 w-1/5",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
             children: "Customer name"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-            className: "p-3 w-1/5",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
             children: "Status"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-            className: "p-3 w-1/5",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
             children: "Amount"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-            className: "p-3 w-1/5",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
             children: "Updated At"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/12"
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
-        children: state.orders.map(function (order) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+        children: state.orders.map(function (order, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+            className: "".concat(index % 2 === 0 && 'bg-gray-100', " hover:bg-gray-200"),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
               children: order.code
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
               children: order.customer_name
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-              children: order.status
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: ORDER_STATUS_NAMES[order.status]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
               children: order.amount_total
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
               children: order.updated_at
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                onClick: function onClick() {
+                  return history.push("/orders/".concat(order.id));
+                },
+                text: "Ver"
+              })
             })]
           }, "list-order-client-item_".concat(order.id));
         })
@@ -11639,6 +11673,37 @@ var ListOrdersView = function ListOrdersView() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ListOrdersView);
+
+/***/ }),
+
+/***/ "./resources/js/views/Orders/ShowOrderView.jsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/views/Orders/ShowOrderView.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var ShowOrderView = function ShowOrderView() {
+  var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useParams)(),
+      orderId = _useParams.orderId;
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: orderId
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShowOrderView);
 
 /***/ }),
 

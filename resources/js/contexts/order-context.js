@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import {
-    ACTION_ADD_FIELDS_TO_FORM_CREATE_ORDER, ACTION_ADD_ORDER, ADD_ERROR_BY_VALIDATION
+    ACTION_ADD_FIELDS_TO_FORM_CREATE_ORDER, ACTION_ADD_ORDER, ADD_ERROR_BY_VALIDATION, ACTION_ADD_ORDERS_LIST
 } from '../constants/order';
 import orders from "../services/orders";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ function orderReducer(state, action) {
         case ACTION_ADD_ORDER:
             return {
                 ...state,
-                orders: [...action.payload, ...state.orders]
+                orders: [action.payload, ...state.orders]
             };
         case ADD_ERROR_BY_VALIDATION:
             return {
