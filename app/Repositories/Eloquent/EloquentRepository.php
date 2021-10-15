@@ -23,7 +23,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function getAllPaginated(int $limit): LengthAwarePaginator
     {
-        return $this->model->paginate($limit);
+        return $this->model->latest()->paginate($limit);
     }
 
     /**

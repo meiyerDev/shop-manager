@@ -22,7 +22,7 @@ class OrderRepository extends EloquentRepository implements OrderRepositoryContr
      */
     public function getOnlyUserPaginated(int $userId, int $limit): LengthAwarePaginator
     {
-        return $this->model->onlyUser($userId)->paginate($limit);
+        return $this->model->onlyUser($userId)->latest()->paginate($limit);
     }
 
     /**

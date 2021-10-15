@@ -12576,7 +12576,7 @@ var AdminListOrdersView = function AdminListOrdersView() {
             children: "Amount"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
             className: "border p-3 w-1/6",
-            children: "Updated At"
+            children: "Created At"
           })]
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
@@ -12597,7 +12597,7 @@ var AdminListOrdersView = function AdminListOrdersView() {
               children: order.amount_total
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
               className: "p-2 border",
-              children: order.updated_at
+              children: order.created_at
             })]
           }, "list-order-client-item_".concat(order.id));
         })
@@ -12815,7 +12815,7 @@ var ListOrdersView = function ListOrdersView() {
               children: order.amount_total
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
               className: "p-2 border",
-              children: order.updated_at
+              children: order.created_at
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
               className: "p-2 border text-center",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_1__["default"], {

@@ -33,7 +33,7 @@ const ListOrdersView = () => {
                             <td className="p-2 border">{order.customer_name}</td>
                             <td className="p-2 border">{ORDER_STATUS_NAMES[order.status]}</td>
                             <td className="p-2 border">{order.amount_total}</td>
-                            <td className="p-2 border">{order.updated_at}</td>
+                            <td className="p-2 border">{order.created_at}</td>
                             <td className="p-2 border text-center"><ButtonPrimary onClick={() => history.push(`/orders/${order.id}`)} text="Details" /></td>
                         </tr>
                     ))}

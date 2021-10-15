@@ -21,7 +21,7 @@ const AdminListOrdersView = () => {
                         <th className="border p-3 w-1/6">Customer name</th>
                         <th className="border p-3 w-1/6">Status</th>
                         <th className="border p-3 w-1/6">Amount</th>
-                        <th className="border p-3 w-1/6">Updated At</th>
+                        <th className="border p-3 w-1/6">Created At</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +31,7 @@ const AdminListOrdersView = () => {
                             <td className="p-2 border">{order.customer_name}</td>
                             <td className="p-2 border">{ORDER_STATUS_NAMES[order.status]}</td>
                             <td className="p-2 border">{order.amount_total}</td>
-                            <td className="p-2 border">{order.updated_at}</td>
+                            <td className="p-2 border">{order.created_at}</td>
                         </tr>
                     ))}
                 </tbody>
