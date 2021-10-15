@@ -75,7 +75,7 @@ sail up -d
 ```
 sail yarn run dev
 ```
-6. Running seeders:
+6. Running seeds:
 ```
 sail artisan db:seed
 ```
@@ -95,7 +95,7 @@ docker-compose up -d
 ```
 docker-compose exec -u sail shopmanager.api yarn run dev
 ```
-6. Running seeders:
+6. Running seeds:
 ```
 docker-compose exec -u sail shopmanager.api artisan db:seed
 ```
