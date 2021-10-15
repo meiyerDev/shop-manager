@@ -11272,6 +11272,68 @@ function OrderProvider(_ref) {
       }
 
       return checkoutPlacetoPay;
+    }(),
+    retryLatestPlacetoPay: function () {
+      var _retryLatestPlacetoPay = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(id) {
+        var toastId, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                toastId = react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.loading("Loading, please wait ...");
+                _context5.prev = 1;
+                _context5.next = 4;
+                return _services_orders__WEBPACK_IMPORTED_MODULE_3__["default"].getPlacetoPay(id);
+
+              case 4:
+                response = _context5.sent;
+                react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
+                  render: "Payment ready to retry, you will redirect to Placeto Pay",
+                  style: {
+                    display: 'block'
+                  },
+                  type: react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.TYPE.SUCCESS,
+                  isLoading: false,
+                  closeButton: function closeButton(_ref3) {
+                    var closeToast = _ref3.closeToast;
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                      className: "text-right",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                        text: "Got it!",
+                        className: "text-xs",
+                        onClick: function onClick() {
+                          window.location.href = response.data.data.process_url;
+                          closeToast();
+                        }
+                      })
+                    });
+                  }
+                });
+                _context5.next = 11;
+                break;
+
+              case 8:
+                _context5.prev = 8;
+                _context5.t0 = _context5["catch"](1);
+                react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
+                  render: "Ups! sorry, try again later",
+                  type: react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.TYPE.ERROR,
+                  isLoading: false
+                });
+
+              case 11:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[1, 8]]);
+      }));
+
+      function retryLatestPlacetoPay(_x4) {
+        return _retryLatestPlacetoPay.apply(this, arguments);
+      }
+
+      return retryLatestPlacetoPay;
     }()
   };
   var value = {
@@ -11441,7 +11503,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AuthRoutes/RoutePrivate */ "./resources/js/components/AuthRoutes/RoutePrivate.jsx");
 /* harmony import */ var _contexts_auth_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/auth-context */ "./resources/js/contexts/auth-context.js");
 /* harmony import */ var _views_Home_HomeView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/Home/HomeView */ "./resources/js/views/Home/HomeView.jsx");
@@ -11450,7 +11512,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/Orders/ShowOrderView */ "./resources/js/views/Orders/ShowOrderView.jsx");
 /* harmony import */ var _views_PlacetoPay_ApprovedOrder__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/PlacetoPay/ApprovedOrder */ "./resources/js/views/PlacetoPay/ApprovedOrder.jsx");
 /* harmony import */ var _views_PlacetoPay_CanceledOrder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/PlacetoPay/CanceledOrder */ "./resources/js/views/PlacetoPay/CanceledOrder.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _views_PlacetoPay_PendingOrder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/PlacetoPay/PendingOrder */ "./resources/js/views/PlacetoPay/PendingOrder.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -11472,31 +11536,35 @@ var Routes = function Routes() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     actions.getAuth();
   }, []);
-  if (state.loading) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+  if (state.loading) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
     children: "loading..."
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/",
       exact: true,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_views_Home_HomeView__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_views_Home_HomeView__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/create",
       exact: true,
       component: _views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_4__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId/placeto-pay/canceled",
       exact: true,
       component: _views_PlacetoPay_CanceledOrder__WEBPACK_IMPORTED_MODULE_8__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId/placeto-pay/successful",
       exact: true,
       component: _views_PlacetoPay_ApprovedOrder__WEBPACK_IMPORTED_MODULE_7__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      path: "/orders/:orderId/placeto-pay/pending",
+      exact: true,
+      component: _views_PlacetoPay_PendingOrder__WEBPACK_IMPORTED_MODULE_9__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId",
       exact: true,
       component: _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_6__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders",
       exact: true,
       component: _views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -11766,6 +11834,32 @@ var orders = {
     }
 
     return createPlacetoPay;
+  }(),
+  getPlacetoPay: function () {
+    var _getPlacetoPay = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(id) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return _csrf__WEBPACK_IMPORTED_MODULE_1__["default"].getCookie();
+
+            case 2:
+              return _context5.abrupt("return", _http__WEBPACK_IMPORTED_MODULE_2__["default"].get("/api/orders/".concat(id, "/placeto-pay")));
+
+            case 3:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }));
+
+    function getPlacetoPay(_x4) {
+      return _getPlacetoPay.apply(this, arguments);
+    }
+
+    return getPlacetoPay;
   }()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (orders);
@@ -11860,6 +11954,25 @@ var getRouteToStatusOrder = function getRouteToStatusOrder(order) {
   if (order.status === 'REJECTED') return "/orders/".concat(order.id, "/placeto-pay/canceled");
   return "/orders/".concat(order.id);
 };
+
+/***/ }),
+
+/***/ "./resources/js/utils/use-query.js":
+/*!*****************************************!*\
+  !*** ./resources/js/utils/use-query.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ useQuery)
+/* harmony export */ });
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+
+function useQuery(searching) {
+  return new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useLocation)().search).get(searching);
+}
 
 /***/ }),
 
@@ -12356,6 +12469,115 @@ var CanceledOrder = function CanceledOrder() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanceledOrder);
+
+/***/ }),
+
+/***/ "./resources/js/views/PlacetoPay/PendingOrder.jsx":
+/*!********************************************************!*\
+  !*** ./resources/js/views/PlacetoPay/PendingOrder.jsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/Button/ButtonPrimary */ "./resources/js/components/Button/ButtonPrimary.jsx");
+/* harmony import */ var _contexts_order_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/order-context */ "./resources/js/contexts/order-context.js");
+/* harmony import */ var _utils_order_status__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/order-status */ "./resources/js/utils/order-status.js");
+/* harmony import */ var _utils_use_query__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/use-query */ "./resources/js/utils/use-query.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+var PendingOrder = function PendingOrder() {
+  var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useParams)(),
+      orderId = _useParams.orderId;
+
+  var _useOrder = (0,_contexts_order_context__WEBPACK_IMPORTED_MODULE_2__.useOrder)(),
+      order = _useOrder.state.order,
+      actions = _useOrder.actions;
+
+  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useHistory)();
+  var reason = (0,_utils_use_query__WEBPACK_IMPORTED_MODULE_4__["default"])('reason');
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      text = _useState2[0],
+      setText = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    actions.getById(orderId);
+  }, [orderId]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (order && order.status === 'PAYED') history.push((0,_utils_order_status__WEBPACK_IMPORTED_MODULE_3__.getRouteToStatusOrder)(order));
+  }, [order]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (reason === 'validating') setText('We are validating your payment');
+    if (reason === 'failed') setText('Your payment failed, complete your purchase');
+    setText('Your payment is pending, if you did not complete the purchase');
+  }, [reason]);
+
+  var handleRetryCheckout = function handleRetryCheckout() {
+    if (reason === 'pending') {
+      actions.retryLatestPlacetoPay(orderId);
+      return;
+    }
+
+    ;
+    actions.checkoutPlacetoPay(orderId);
+  };
+
+  if (!order || order.status === 'PAYED') return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    children: "loading.."
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    className: "flex justify-center",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "w-2/3 bg-white space-y-3 shadow-md rounded py-5 flex justify-center items-center flex-col text-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h3", {
+        className: "text-2xl mb-2",
+        children: [text, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+          className: "text-base",
+          children: [" for the order no. ", order.code]
+        })]
+      }), reason !== 'validating' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        text: "Retry",
+        className: "mb-0",
+        onClick: handleRetryCheckout
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        text: "Go to Home",
+        className: "mb-0",
+        onClick: function onClick() {
+          return history.push('/');
+        }
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PendingOrder);
 
 /***/ }),
 

@@ -17,6 +17,10 @@ const orders = {
     createPlacetoPay: async (id) => {
         await csrf.getCookie();
         return http.post(`/api/orders/${id}/placeto-pay`);
+    },
+    getPlacetoPay: async (id) => {
+        await csrf.getCookie();
+        return http.get(`/api/orders/${id}/placeto-pay`);
     }
 };
 

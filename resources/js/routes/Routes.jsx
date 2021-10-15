@@ -12,6 +12,7 @@ import ListOrdersView from '../views/Orders/ListOrdersView';
 import ShowOrderView from '../views/Orders/ShowOrderView';
 import ApprovedOrder from '../views/PlacetoPay/ApprovedOrder';
 import CanceledOrder from '../views/PlacetoPay/CanceledOrder';
+import PendingOrder from '../views/PlacetoPay/PendingOrder';
 
 const Routes = () => {
   const { state, actions } = useAuth();
@@ -30,6 +31,7 @@ const Routes = () => {
       <RoutePrivate path="/orders/create" exact component={CreateOrderView} />
       <RoutePrivate path="/orders/:orderId/placeto-pay/canceled" exact component={CanceledOrder} />
       <RoutePrivate path="/orders/:orderId/placeto-pay/successful" exact component={ApprovedOrder} />
+      <RoutePrivate path="/orders/:orderId/placeto-pay/pending" exact component={PendingOrder} />
       <RoutePrivate path="/orders/:orderId" exact component={ShowOrderView} />
       <RoutePrivate path="/orders" exact component={ListOrdersView} />
     </Switch>

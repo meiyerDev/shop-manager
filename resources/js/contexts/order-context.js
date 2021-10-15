@@ -154,6 +154,34 @@ function OrderProvider({ children }) {
                     isLoading: false
                 })
             }
+        },
+        retryLatestPlacetoPay: async (id) => {
+            let toastId = toast.loading("Loading, please wait ...")
+            try {
+                const response = await orders.getPlacetoPay(id);
+                toast.update(toastId, {
+                    render: "Payment ready to retry, you will redirect to Placeto Pay",
+                    style: { display: 'block' },
+                    type: toast.TYPE.SUCCESS,
+                    isLoading: false,
+                    closeButton: ({ closeToast }) => {
+                        return (
+                            <div className="text-right">
+                                <ButtonPrimary text="Got it!" className="text-xs" onClick={() => {
+                                    window.location.href = response.data.data.process_url;
+                                    closeToast();
+                                }} />
+                            </div>
+                        )
+                    }
+                })
+            } catch (err) {
+                toast.update(toastId, {
+                    render: "Ups! sorry, try again later",
+                    type: toast.TYPE.ERROR,
+                    isLoading: false
+                })
+            }
         }
     }
 
