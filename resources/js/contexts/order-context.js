@@ -110,6 +110,13 @@ function OrderProvider({ children }) {
                 payload: response.data.data.data
             });
         },
+        getByAdmin: async () => {
+            const response = await orders.getAdminOrders();
+            dispatch({
+                type: ACTION_ADD_ORDERS_LIST,
+                payload: response.data.data.data
+            });
+        },
         getById: async (id) => {
             try {
                 const response = await orders.getOrderById(id);

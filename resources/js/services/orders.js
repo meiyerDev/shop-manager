@@ -21,7 +21,11 @@ const orders = {
     getPlacetoPay: async (id) => {
         await csrf.getCookie();
         return http.get(`/api/orders/${id}/placeto-pay`);
-    }
+    },
+    getAdminOrders: async () => {
+        await csrf.getCookie()
+        return http.get('/api/admin/orders');
+    },
 };
 
 export default orders;

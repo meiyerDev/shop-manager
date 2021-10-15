@@ -9823,17 +9823,20 @@ __webpack_require__.r(__webpack_exports__);
 var RoutePrivate = function RoutePrivate(_ref) {
   var Component = _ref.component,
       exact = _ref.exact,
-      path = _ref.path;
+      path = _ref.path,
+      onlyAdmin = _ref.onlyAdmin;
 
   var _useAuth = (0,_contexts_auth_context__WEBPACK_IMPORTED_MODULE_1__.useAuth)(),
-      isAuth = _useAuth.state.isAuth,
+      _useAuth$state = _useAuth.state,
+      isAuth = _useAuth$state.isAuth,
+      user = _useAuth$state.user,
       actions = _useAuth.actions;
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     exact: !!exact,
     path: path,
     render: function render(props) {
-      if (isAuth) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, {});
+      if (isAuth && (!onlyAdmin || user.is_admin)) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, {});
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_4__.Redirect, {
         to: "/",
         from: path
@@ -10508,6 +10511,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Navbar = function Navbar() {
+  var _state$user;
+
   var _useAuth = (0,_contexts_auth_context__WEBPACK_IMPORTED_MODULE_1__.useAuth)(),
       state = _useAuth.state,
       actions = _useAuth.actions;
@@ -10542,6 +10547,11 @@ var Navbar = function Navbar() {
               className: "py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300",
               activeClassName: "text-green-500 border-b-4 border-green-500",
               children: "Orders"
+            }), state.isAuth && ((_state$user = state.user) === null || _state$user === void 0 ? void 0 : _state$user.is_admin) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
+              to: "/admin/orders",
+              className: "py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300",
+              activeClassName: "text-green-500 border-b-4 border-green-500",
+              children: "Admin Orders"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -11164,31 +11174,62 @@ function OrderProvider(_ref) {
 
       return getByAuth;
     }(),
-    getById: function () {
-      var _getById = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(id) {
-        var response, data;
+    getByAdmin: function () {
+      var _getByAdmin = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context3.next = 2;
+                return _services_orders__WEBPACK_IMPORTED_MODULE_3__["default"].getAdminOrders();
+
+              case 2:
+                response = _context3.sent;
+                dispatch({
+                  type: _constants_order__WEBPACK_IMPORTED_MODULE_2__.ACTION_ADD_ORDERS_LIST,
+                  payload: response.data.data.data
+                });
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function getByAdmin() {
+        return _getByAdmin.apply(this, arguments);
+      }
+
+      return getByAdmin;
+    }(),
+    getById: function () {
+      var _getById = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(id) {
+        var response, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
                 return _services_orders__WEBPACK_IMPORTED_MODULE_3__["default"].getOrderById(id);
 
               case 3:
-                response = _context3.sent;
+                response = _context4.sent;
                 console.log(response.data);
                 dispatch({
                   type: _constants_order__WEBPACK_IMPORTED_MODULE_2__.ACTION_ADD_ORDER,
                   payload: response.data.data
                 });
-                _context3.next = 14;
+                _context4.next = 14;
                 break;
 
               case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3["catch"](0);
-                data = _context3.t0.response.data;
+                _context4.prev = 8;
+                _context4.t0 = _context4["catch"](0);
+                data = _context4.t0.response.data;
 
                 if (data.code === 403) {
                   react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.error("Ups! this order doesn't exists");
@@ -11199,10 +11240,10 @@ function OrderProvider(_ref) {
 
               case 14:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, null, [[0, 8]]);
+        }, _callee4, null, [[0, 8]]);
       }));
 
       function getById(_x2) {
@@ -11212,19 +11253,19 @@ function OrderProvider(_ref) {
       return getById;
     }(),
     checkoutPlacetoPay: function () {
-      var _checkoutPlacetoPay = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(id) {
+      var _checkoutPlacetoPay = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(id) {
         var toastId, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 toastId = react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.loading("Processing, please wait ...");
-                _context4.prev = 1;
-                _context4.next = 4;
+                _context5.prev = 1;
+                _context5.next = 4;
                 return _services_orders__WEBPACK_IMPORTED_MODULE_3__["default"].createPlacetoPay(id);
 
               case 4:
-                response = _context4.sent;
+                response = _context5.sent;
                 react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
                   render: "Order ready to proceed to payment, you will redirect to Placeto Pay",
                   style: {
@@ -11234,68 +11275,6 @@ function OrderProvider(_ref) {
                   isLoading: false,
                   closeButton: function closeButton(_ref2) {
                     var closeToast = _ref2.closeToast;
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                      className: "text-right",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                        text: "Got it!",
-                        className: "text-xs",
-                        onClick: function onClick() {
-                          window.location.href = response.data.data.process_url;
-                          closeToast();
-                        }
-                      })
-                    });
-                  }
-                });
-                _context4.next = 11;
-                break;
-
-              case 8:
-                _context4.prev = 8;
-                _context4.t0 = _context4["catch"](1);
-                react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
-                  render: "Ups! sorry, try again later",
-                  type: react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.TYPE.ERROR,
-                  isLoading: false
-                });
-
-              case 11:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, null, [[1, 8]]);
-      }));
-
-      function checkoutPlacetoPay(_x3) {
-        return _checkoutPlacetoPay.apply(this, arguments);
-      }
-
-      return checkoutPlacetoPay;
-    }(),
-    retryLatestPlacetoPay: function () {
-      var _retryLatestPlacetoPay = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(id) {
-        var toastId, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                toastId = react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.loading("Loading, please wait ...");
-                _context5.prev = 1;
-                _context5.next = 4;
-                return _services_orders__WEBPACK_IMPORTED_MODULE_3__["default"].getPlacetoPay(id);
-
-              case 4:
-                response = _context5.sent;
-                react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
-                  render: "Payment ready to retry, you will redirect to Placeto Pay",
-                  style: {
-                    display: 'block'
-                  },
-                  type: react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.TYPE.SUCCESS,
-                  isLoading: false,
-                  closeButton: function closeButton(_ref3) {
-                    var closeToast = _ref3.closeToast;
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                       className: "text-right",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -11327,6 +11306,68 @@ function OrderProvider(_ref) {
             }
           }
         }, _callee5, null, [[1, 8]]);
+      }));
+
+      function checkoutPlacetoPay(_x3) {
+        return _checkoutPlacetoPay.apply(this, arguments);
+      }
+
+      return checkoutPlacetoPay;
+    }(),
+    retryLatestPlacetoPay: function () {
+      var _retryLatestPlacetoPay = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6(id) {
+        var toastId, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                toastId = react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.loading("Loading, please wait ...");
+                _context6.prev = 1;
+                _context6.next = 4;
+                return _services_orders__WEBPACK_IMPORTED_MODULE_3__["default"].getPlacetoPay(id);
+
+              case 4:
+                response = _context6.sent;
+                react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
+                  render: "Payment ready to retry, you will redirect to Placeto Pay",
+                  style: {
+                    display: 'block'
+                  },
+                  type: react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.TYPE.SUCCESS,
+                  isLoading: false,
+                  closeButton: function closeButton(_ref3) {
+                    var closeToast = _ref3.closeToast;
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                      className: "text-right",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Button_ButtonPrimary__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                        text: "Got it!",
+                        className: "text-xs",
+                        onClick: function onClick() {
+                          window.location.href = response.data.data.process_url;
+                          closeToast();
+                        }
+                      })
+                    });
+                  }
+                });
+                _context6.next = 11;
+                break;
+
+              case 8:
+                _context6.prev = 8;
+                _context6.t0 = _context6["catch"](1);
+                react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.update(toastId, {
+                  render: "Ups! sorry, try again later",
+                  type: react_toastify__WEBPACK_IMPORTED_MODULE_4__.toast.TYPE.ERROR,
+                  isLoading: false
+                });
+
+              case 11:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, null, [[1, 8]]);
       }));
 
       function retryLatestPlacetoPay(_x4) {
@@ -11503,17 +11544,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/AuthRoutes/RoutePrivate */ "./resources/js/components/AuthRoutes/RoutePrivate.jsx");
 /* harmony import */ var _contexts_auth_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/auth-context */ "./resources/js/contexts/auth-context.js");
-/* harmony import */ var _views_Home_HomeView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/Home/HomeView */ "./resources/js/views/Home/HomeView.jsx");
-/* harmony import */ var _views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/Orders/CreateOrderView */ "./resources/js/views/Orders/CreateOrderView.jsx");
-/* harmony import */ var _views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/Orders/ListOrdersView */ "./resources/js/views/Orders/ListOrdersView.jsx");
-/* harmony import */ var _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/Orders/ShowOrderView */ "./resources/js/views/Orders/ShowOrderView.jsx");
-/* harmony import */ var _views_PlacetoPay_ApprovedOrder__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/PlacetoPay/ApprovedOrder */ "./resources/js/views/PlacetoPay/ApprovedOrder.jsx");
-/* harmony import */ var _views_PlacetoPay_CanceledOrder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/PlacetoPay/CanceledOrder */ "./resources/js/views/PlacetoPay/CanceledOrder.jsx");
-/* harmony import */ var _views_PlacetoPay_PendingOrder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/PlacetoPay/PendingOrder */ "./resources/js/views/PlacetoPay/PendingOrder.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _views_Admin_AdminListOrdersView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/Admin/AdminListOrdersView */ "./resources/js/views/Admin/AdminListOrdersView.jsx");
+/* harmony import */ var _views_Home_HomeView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/Home/HomeView */ "./resources/js/views/Home/HomeView.jsx");
+/* harmony import */ var _views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/Orders/CreateOrderView */ "./resources/js/views/Orders/CreateOrderView.jsx");
+/* harmony import */ var _views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/Orders/ListOrdersView */ "./resources/js/views/Orders/ListOrdersView.jsx");
+/* harmony import */ var _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/Orders/ShowOrderView */ "./resources/js/views/Orders/ShowOrderView.jsx");
+/* harmony import */ var _views_PlacetoPay_ApprovedOrder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/PlacetoPay/ApprovedOrder */ "./resources/js/views/PlacetoPay/ApprovedOrder.jsx");
+/* harmony import */ var _views_PlacetoPay_CanceledOrder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/PlacetoPay/CanceledOrder */ "./resources/js/views/PlacetoPay/CanceledOrder.jsx");
+/* harmony import */ var _views_PlacetoPay_PendingOrder__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/PlacetoPay/PendingOrder */ "./resources/js/views/PlacetoPay/PendingOrder.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -11536,38 +11579,43 @@ var Routes = function Routes() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     actions.getAuth();
   }, []);
-  if (state.loading) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+  if (state.loading) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
     children: "loading..."
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Switch, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
       path: "/",
       exact: true,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_views_Home_HomeView__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_views_Home_HomeView__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/create",
       exact: true,
-      component: _views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_4__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      component: _views_Orders_CreateOrderView__WEBPACK_IMPORTED_MODULE_5__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId/placeto-pay/canceled",
       exact: true,
-      component: _views_PlacetoPay_CanceledOrder__WEBPACK_IMPORTED_MODULE_8__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      component: _views_PlacetoPay_CanceledOrder__WEBPACK_IMPORTED_MODULE_9__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId/placeto-pay/successful",
       exact: true,
-      component: _views_PlacetoPay_ApprovedOrder__WEBPACK_IMPORTED_MODULE_7__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      component: _views_PlacetoPay_ApprovedOrder__WEBPACK_IMPORTED_MODULE_8__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId/placeto-pay/pending",
       exact: true,
-      component: _views_PlacetoPay_PendingOrder__WEBPACK_IMPORTED_MODULE_9__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      component: _views_PlacetoPay_PendingOrder__WEBPACK_IMPORTED_MODULE_10__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders/:orderId",
       exact: true,
-      component: _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_6__["default"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      component: _views_Orders_ShowOrderView__WEBPACK_IMPORTED_MODULE_7__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
       path: "/orders",
       exact: true,
-      component: _views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_5__["default"]
+      component: _views_Orders_ListOrdersView__WEBPACK_IMPORTED_MODULE_6__["default"]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_AuthRoutes_RoutePrivate__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      path: "/admin/orders",
+      exact: true,
+      component: _views_Admin_AdminListOrdersView__WEBPACK_IMPORTED_MODULE_3__["default"],
+      onlyAdmin: true
     })]
   });
 };
@@ -11860,6 +11908,32 @@ var orders = {
     }
 
     return getPlacetoPay;
+  }(),
+  getAdminOrders: function () {
+    var _getAdminOrders = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return _csrf__WEBPACK_IMPORTED_MODULE_1__["default"].getCookie();
+
+            case 2:
+              return _context6.abrupt("return", _http__WEBPACK_IMPORTED_MODULE_2__["default"].get('/api/admin/orders'));
+
+            case 3:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }));
+
+    function getAdminOrders() {
+      return _getAdminOrders.apply(this, arguments);
+    }
+
+    return getAdminOrders;
   }()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (orders);
@@ -11973,6 +12047,92 @@ __webpack_require__.r(__webpack_exports__);
 function useQuery(searching) {
   return new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useLocation)().search).get(searching);
 }
+
+/***/ }),
+
+/***/ "./resources/js/views/Admin/AdminListOrdersView.jsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/views/Admin/AdminListOrdersView.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom/cjs/react-router-dom.min */ "./node_modules/react-router-dom/cjs/react-router-dom.min.js");
+/* harmony import */ var _contexts_order_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/order-context */ "./resources/js/contexts/order-context.js");
+/* harmony import */ var _utils_order_status__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/order-status */ "./resources/js/utils/order-status.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+var AdminListOrdersView = function AdminListOrdersView() {
+  var _useOrder = (0,_contexts_order_context__WEBPACK_IMPORTED_MODULE_1__.useOrder)(),
+      state = _useOrder.state,
+      actions = _useOrder.actions;
+
+  var history = (0,react_router_dom_cjs_react_router_dom_min__WEBPACK_IMPORTED_MODULE_4__.useHistory)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    actions.getByAdmin();
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "py-4 px-3 mt-4",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+      className: "table-fixed border-collapse border w-full text-left",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-2/5",
+            children: "Code"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
+            children: "Customer name"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
+            children: "Status"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
+            children: "Amount"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+            className: "border p-3 w-1/6",
+            children: "Updated At"
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+        children: state.orders.map(function (order, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+            className: "".concat(index % 2 === 0 && 'bg-gray-100', " hover:bg-gray-200"),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: order.code
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: order.customer_name
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: _utils_order_status__WEBPACK_IMPORTED_MODULE_2__.ORDER_STATUS_NAMES[order.status]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: order.amount_total
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+              className: "p-2 border",
+              children: order.updated_at
+            })]
+          }, "list-order-client-item_".concat(order.id));
+        })
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AdminListOrdersView);
 
 /***/ }),
 

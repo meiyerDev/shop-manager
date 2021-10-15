@@ -35,6 +35,18 @@ const Navbar = () => {
                                     Orders
                                 </NavLink>
                             )}
+
+                            {state.isAuth && state.user?.is_admin && (
+                                <NavLink
+                                    to="/admin/orders"
+                                    className="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+                                    activeClassName="text-green-500 border-b-4 border-green-500"
+                                >
+                                    Admin Orders
+                                </NavLink>
+
+                            )
+                            }
                         </div>
                     </div>
                     <div className="flex items-center">

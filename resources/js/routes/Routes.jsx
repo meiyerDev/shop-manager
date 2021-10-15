@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import RoutePrivate from '../components/AuthRoutes/RoutePrivate';
 import { useAuth } from '../contexts/auth-context';
+import AdminListOrdersView from '../views/Admin/AdminListOrdersView';
 import HomeView from '../views/Home/HomeView';
 import CreateOrderView from '../views/Orders/CreateOrderView';
 import ListOrdersView from '../views/Orders/ListOrdersView';
@@ -34,6 +35,7 @@ const Routes = () => {
       <RoutePrivate path="/orders/:orderId/placeto-pay/pending" exact component={PendingOrder} />
       <RoutePrivate path="/orders/:orderId" exact component={ShowOrderView} />
       <RoutePrivate path="/orders" exact component={ListOrdersView} />
+      <RoutePrivate path="/admin/orders" exact component={AdminListOrdersView} onlyAdmin />
     </Switch>
   );
 }
