@@ -51,7 +51,8 @@ php artisan serve
 
 1. Prerequisities
 
-- Install docker in your workstation
+- Install [docker](https://docs.docker.com/get-started/) in your workstation
+- Install [docker-compose](https://docs.docker.com/compose/install/) in your workstation
 - Clone project and enter to folder:
 ```
 git clone https://github.com/themey99/shop-manager.git && cd shop-manager
