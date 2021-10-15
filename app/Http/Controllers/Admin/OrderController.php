@@ -23,6 +23,8 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Order::class);
+
         $orders = $this->orderRepository->getAllPaginated(
             (int) $request->query('limit', 15)
         );
