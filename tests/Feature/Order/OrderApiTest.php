@@ -212,4 +212,45 @@ class OrderApiTest extends TestCase
             ]
         ]);
     }
+
+    /**
+     * Return all user's order 
+     */
+    public function test_get_all_order_acting_as_admin()
+    {
+        $user = $this->createUserAdmin();
+        Sanctum::actingAs($user);
+
+        Order::factory()
+            ->forUser()
+            ->hasProducts()
+            ->count(6)
+            ->create();
+
+        $response = $this->getJson(route('api.admin.order.index'));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'data' => [
+                    [
+                        'id',
+                        'code',
+                        'customer_name',
+                        'customer_email',
+                        'customer_mobile',
+                        'status',
+                        'amount_total',
+                        'products' => [
+                            [
+                                'id',
+                                'name',
+                                'price'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+    }
 }
