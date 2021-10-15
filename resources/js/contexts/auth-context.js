@@ -5,6 +5,8 @@ import {
     ACTION_LOGOUT,
     ACTION_AUTH_LOADED,
     ACTION_AUTH_LOADING,
+    ACTION_AUTH_RESET_ERRORS,
+    ACTION_AUTH_ADD_ERROR_BY_VALIDATION,
 } from '../constants/auth';
 import auth from "../services/auth";
 import { toast } from "react-toastify";
@@ -14,6 +16,12 @@ const AuthContext = createContext();
 function authReducer(state, action) {
     switch (action.type) {
         case ACTION_LOGIN:
+            return {
+                ...state,
+                isAuth: true,
+                user: action.payload
+            };
+        case ACTION_SIGNUP:
             return {
                 ...state,
                 isAuth: true,
@@ -35,6 +43,24 @@ function authReducer(state, action) {
                 ...state,
                 loading: false
             }
+        case ACTION_AUTH_RESET_ERRORS:
+            return {
+                ...state,
+                errors: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                }
+            }
+        case ACTION_AUTH_ADD_ERROR_BY_VALIDATION:
+            return {
+                ...state,
+                errors: {
+                    ...state.errors,
+                    ...action.payload
+                }
+            }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);
         }
@@ -47,13 +73,19 @@ function AuthProvider({ children }) {
         loading: true,
         user: null,
         errors: {
+            name: '',
             email: '',
             password: '',
+            password_confirmation: '',
         }
     });
 
     const actions = {
+        resetErrors: async () => {
+            dispatch({ type: ACTION_AUTH_RESET_ERRORS });
+        },
         login: async (fields) => {
+            dispatch({ type: ACTION_AUTH_RESET_ERRORS });
             try {
                 const response = await auth.login(fields);
                 dispatch({
@@ -64,10 +96,37 @@ function AuthProvider({ children }) {
                 const data = err.response.data;
                 if (data.code === 422) {
                     for (const key in data.error) {
-                        if (Object.prototype.hasOwnProperty.call(error, key)) {
-                            const element = error[key];
+                        if (Object.prototype.hasOwnProperty.call(data.error, key)) {
+                            const element = data.error[key];
                             dispatch({
-                                type: ADD_ERROR_BY_VALIDATION,
+                                type: ACTION_AUTH_ADD_ERROR_BY_VALIDATION,
+                                payload: {
+                                    [key]: element[0]
+                                }
+                            });
+                        }
+                    }
+                    return;
+                }
+                toast.error("Ups! sorry, try again later")
+            }
+        },
+        signup: async (fields) => {
+            dispatch({ type: ACTION_AUTH_RESET_ERRORS });
+            try {
+                const response = await auth.signup(fields);
+                dispatch({
+                    type: ACTION_SIGNUP,
+                    payload: response.data.data
+                });
+            } catch (err) {
+                const data = err.response.data;
+                if (data.code === 422) {
+                    for (const key in data.error) {
+                        if (Object.prototype.hasOwnProperty.call(data.error, key)) {
+                            const element = data.error[key];
+                            dispatch({
+                                type: ACTION_AUTH_ADD_ERROR_BY_VALIDATION,
                                 payload: {
                                     [key]: element[0]
                                 }
@@ -96,7 +155,7 @@ function AuthProvider({ children }) {
                 });
             } catch (err) {
                 dispatch({ type: ACTION_LOGOUT });
-                toast.error("Ups! sorry, try again later")
+                // toast.error("Ups! sorry, try again later")
             }
             dispatch({ type: ACTION_AUTH_LOADED })
         }

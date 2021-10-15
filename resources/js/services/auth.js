@@ -6,6 +6,10 @@ const auth = {
         await csrf.getCookie()
         return http.post('/api/login', fields);
     },
+    signup: async (fields) => {
+        await csrf.getCookie()
+        return http.post('/api/signup', fields);
+    },
     getAuth: async () => {
         await csrf.getCookie()
         return http.get('/api/user');
