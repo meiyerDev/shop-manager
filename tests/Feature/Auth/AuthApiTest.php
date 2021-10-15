@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class AuthApiTest extends TestCase
@@ -68,5 +69,35 @@ class AuthApiTest extends TestCase
         $response->assertJsonValidationErrors([
             'email',
         ], 'error');
+    }
+
+    /**
+     * Test get user authenticated
+     * 
+     * @return void
+     */
+    public function test_get_user_authenticated()
+    {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson(route('api.auth.get-auth'));
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'data' => [
+                'id', 'name', 'email'
+            ]
+        ]);
+    }
+
+    /**
+     * Test get user authenticated
+     * 
+     * @return void
+     */
+    public function test_get_user_authenticated_fail_by_unauthorized()
+    {
+        $response = $this->getJson(route('api.auth.get-auth'));
+        $response->assertUnauthorized();
     }
 }

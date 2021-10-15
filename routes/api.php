@@ -19,6 +19,7 @@ Route::post('/login', 'AuthController@login')->name('api.auth.login');
 Route::get('/products', 'ProductController@index')->name('api.products.index');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', 'AuthController@getAuth')->name('api.auth.get-auth');
     Route::get('/orders', 'OrderController@index')->name('api.order.index');
     Route::post('/orders', 'OrderController@store')->name('api.order.create');
     Route::get('/orders/{orderId}', 'OrderController@show')->name('api.order.show');

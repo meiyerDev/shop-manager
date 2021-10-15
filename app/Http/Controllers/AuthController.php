@@ -35,4 +35,13 @@ class AuthController extends Controller
             'email' => [__('These credentials do not match our records.')]
         ]);
     }
+
+    public function getAuth()
+    {
+        $user = Auth::user();
+
+        return $this->successResponse(
+            new UserResource($user)
+        );
+    }
 }
