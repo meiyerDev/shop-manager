@@ -11,17 +11,6 @@ use Tests\TestCase;
 class UserRelationshipsTest extends TestCase
 {
     /**
-     * user instance has many customers.
-     *
-     * @return void
-     */
-    public function test_user_has_many_customers()
-    {
-        $user = new User;
-        $this->assertInstanceOf(HasMany::class, $user->customers());
-    }
-
-    /**
      * user instance has many orders
      * 
      * @return void

@@ -51,10 +51,8 @@ class OrderPlacetoPayTest extends TestCase
     public function test_receive_successful_to_update_status_by_reference()
     {
         $placetoPayModel = PlacetoPay::factory()->create();
-        $user = $placetoPayModel->order->user;
-        Sanctum::actingAs($user);
 
-        $response = $this->post($placetoPayModel->return_url);
+        $response = $this->get($placetoPayModel->return_url);
 
         $response->assertRedirect(route('web.placeto-pay.successful', $placetoPayModel->order_id));
         $this->assertDatabaseHas('orders', [
@@ -71,10 +69,8 @@ class OrderPlacetoPayTest extends TestCase
         $placetoPayModel = PlacetoPay::factory()->create([
             'request_id' => 90000
         ]);
-        $user = $placetoPayModel->order->user;
-        Sanctum::actingAs($user);
 
-        $response = $this->post($placetoPayModel->return_url);
+        $response = $this->get($placetoPayModel->return_url);
 
         $response->assertRedirect(route('web.placeto-pay.retry', ['orderId' => $placetoPayModel->order_id, 'reason' => 'failed']));
         $this->assertDatabaseHas('orders', [
@@ -91,10 +87,8 @@ class OrderPlacetoPayTest extends TestCase
         $placetoPayModel = PlacetoPay::factory()->create([
             'request_id' => 10010
         ]);
-        $user = $placetoPayModel->order->user;
-        Sanctum::actingAs($user);
 
-        $response = $this->post($placetoPayModel->cancel_url);
+        $response = $this->get($placetoPayModel->cancel_url);
 
         $response->assertRedirect(route('web.placeto-pay.canceled', $placetoPayModel->order_id));
         $this->assertDatabaseHas('orders', [
@@ -111,10 +105,8 @@ class OrderPlacetoPayTest extends TestCase
         $placetoPayModel = PlacetoPay::factory()->create([
             'request_id' => 90000
         ]);
-        $user = $placetoPayModel->order->user;
-        Sanctum::actingAs($user);
 
-        $response = $this->post($placetoPayModel->cancel_url);
+        $response = $this->get($placetoPayModel->cancel_url);
 
         $response->assertRedirect(route('web.placeto-pay.retry', ['orderId' => $placetoPayModel->order_id, 'reason' => 'canceled']));
         $this->assertDatabaseHas('orders', [

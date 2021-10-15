@@ -24,7 +24,7 @@ class ProductApiTest extends TestCase
 
         $products = Product::factory()->count(10)->create();
 
-        $response = $this->getJson('/products');
+        $response = $this->getJson(route('api.products.index'));
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
