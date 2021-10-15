@@ -78,4 +78,21 @@ class OrderPlacetoPayController extends Controller
 
         return redirect()->to($route);
     }
+
+    /**
+     * get placetopay request
+     */
+    public function getPaymentRequest(
+        int $orderId
+    ) {
+        /** @var Order */
+        $order = $this->orderRepository->findOrFail($orderId);
+        $this->authorize('view', $order);
+
+        $placetoPay = $this->orderRepository->getLatestPlacetoPay($order);
+
+        return $this->successResponse([
+            'process_url' => $placetoPay->process_url
+        ], Response::HTTP_CREATED);
+    }
 }

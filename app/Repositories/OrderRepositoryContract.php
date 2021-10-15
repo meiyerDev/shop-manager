@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Order;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface OrderRepositoryContract extends EloquentRepositoryContract
@@ -21,4 +22,11 @@ interface OrderRepositoryContract extends EloquentRepositoryContract
      * @return LengthAwarePaginator
      */
     public function getOnlyUserPaginated(int $userId, int $limit): LengthAwarePaginator;
+
+    /**
+     * Get latest placeto pay by Order
+     * 
+     * @param Order $order 
+     */
+    public function getLatestPlacetoPay(Order $order);
 }

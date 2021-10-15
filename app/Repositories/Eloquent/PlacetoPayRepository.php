@@ -7,6 +7,7 @@ use App\Models\PlacetoPay;
 use App\Repositories\PlacetoPayRepositoryContract;
 use Carbon\Carbon;
 use Dnetix\Redirection;
+use Dnetix\Redirection\Entities\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -112,14 +113,20 @@ class PlacetoPayRepository extends EloquentRepository implements PlacetoPayRepos
         $response = $this->placetoPayRedirection->query($placetoPayModel->request_id);
 
         if ($response->isSuccessful()) {
-            if ($response->status()->isApproved()) {
+            $status = $response->status();
+            if ($status->isApproved()) {
                 $order->update([
                     'status' => Order::STATUS_PAYED
                 ]);
                 return route('web.placeto-pay.successful', $order->id);
             }
 
-            return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => 'pending']);
+            $statusOrder = [
+                STATUS::ST_APPROVED_PARTIAL => 'validating',
+                STATUS::ST_PENDING => 'pending'
+            ];
+
+            return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => $statusOrder[$status->status()] ?? 'pending']);
         }
 
         return route('web.placeto-pay.retry', ['orderId' => $order->id, 'reason' => 'failed']);

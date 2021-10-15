@@ -57,4 +57,14 @@ class OrderRepository extends EloquentRepository implements OrderRepositoryContr
 
         return $order->load('products');
     }
+
+    /**
+     * Get latest placeto pay by Order
+     * 
+     * @param Order $order 
+     */
+    public function getLatestPlacetoPay(Order $order)
+    {
+        return $order->placetoPays()->latest()->firstOrFail();
+    }
 }

@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders/{orderId}', 'OrderController@show')->name('api.order.show');
 
     Route::post('/orders/{orderId}/placeto-pay', 'OrderPlacetoPayController@createPaymentRequest')->name('api.order.placeto-pay.generate');
+    Route::get('/orders/{orderId}/placeto-pay', 'OrderPlacetoPayController@getPaymentRequest')->name('api.order.placeto-pay.latest');
 });
 
 Route::get('/orders/{orderId}/placeto-pay/{referenceId}/successful', 'OrderPlacetoPayController@receivedSuccessful')->name('api.order.placeto-pay.successful');

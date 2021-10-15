@@ -122,4 +122,24 @@ class OrderPlacetoPayTest extends TestCase
             'status' => Order::STATUS_CREATED
         ]);
     }
+
+    /**
+     * Test get latest placetoPay by Order
+     */
+    public function test_get_latest_placeto_pay_by_order()
+    {
+        $placetoPayModel = PlacetoPay::factory()->create([
+            'request_id' => 90000
+        ]);
+        $order = $placetoPayModel->order;
+        $user = $order->user;
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson(route('api.order.placeto-pay.latest', $order->id));
+        $response->assertJsonStructure([
+            'data' => [
+                'process_url'
+            ]
+        ]);
+    }
 }
