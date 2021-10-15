@@ -9,7 +9,11 @@ const auth = {
     getAuth: async () => {
         await csrf.getCookie()
         return http.get('/api/user');
-    }
+    },
+    logout: async () => {
+        await csrf.getCookie()
+        return http.post('/api/logout');
+    },
 };
 
 export default auth;

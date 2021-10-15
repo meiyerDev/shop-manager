@@ -9879,6 +9879,45 @@ var OrderStatusBadge = function OrderStatusBadge(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Button/ButtonLogout.jsx":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Button/ButtonLogout.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_auth_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth-context */ "./resources/js/contexts/auth-context.js");
+/* harmony import */ var _ButtonPrimary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ButtonPrimary */ "./resources/js/components/Button/ButtonPrimary.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var ButtonLogout = function ButtonLogout() {
+  var _useAuth = (0,_contexts_auth_context__WEBPACK_IMPORTED_MODULE_1__.useAuth)(),
+      state = _useAuth.state,
+      actions = _useAuth.actions;
+
+  var handlelogout = function handlelogout(e) {
+    actions.logout();
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_ButtonPrimary__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    text: "logout",
+    onClick: handlelogout
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ButtonLogout);
+
+/***/ }),
+
 /***/ "./resources/js/components/Button/ButtonPrimary.jsx":
 /*!**********************************************************!*\
   !*** ./resources/js/components/Button/ButtonPrimary.jsx ***!
@@ -10499,10 +10538,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _contexts_auth_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/auth-context */ "./resources/js/contexts/auth-context.js");
-/* harmony import */ var _ModalAuth_ModalAuth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ModalAuth/ModalAuth */ "./resources/js/components/ModalAuth/ModalAuth.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Button_ButtonLogout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Button/ButtonLogout */ "./resources/js/components/Button/ButtonLogout.jsx");
+/* harmony import */ var _ModalAuth_ModalAuth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ModalAuth/ModalAuth */ "./resources/js/components/ModalAuth/ModalAuth.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -10517,46 +10558,46 @@ var Navbar = function Navbar() {
       state = _useAuth.state,
       actions = _useAuth.actions;
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("nav", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("nav", {
     className: "bg-white shadow-lg",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "max-w-6xl mx-auto px-4",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "flex justify-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "flex space-x-7",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
               href: "#",
               className: "flex items-center py-4 px-2",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                 className: "font-semibold text-gray-500 text-lg",
                 children: "Navigation"
               })
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "flex items-center space-x-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
               exact: true,
               to: "/",
               className: "py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300",
               activeClassName: "text-green-500 border-b-4 border-green-500",
               children: "Home"
-            }), state.isAuth && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
+            }), state.isAuth && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
               to: "/orders",
               className: "py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300",
               activeClassName: "text-green-500 border-b-4 border-green-500",
               children: "Orders"
-            }), state.isAuth && ((_state$user = state.user) === null || _state$user === void 0 ? void 0 : _state$user.is_admin) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
+            }), state.isAuth && ((_state$user = state.user) === null || _state$user === void 0 ? void 0 : _state$user.is_admin) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
               to: "/admin/orders",
               className: "py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300",
               activeClassName: "text-green-500 border-b-4 border-green-500",
               children: "Admin Orders"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "flex items-center",
-          children: !state.isAuth && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_ModalAuth_ModalAuth__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+          children: !state.isAuth ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ModalAuth_ModalAuth__WEBPACK_IMPORTED_MODULE_3__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Button_ButtonLogout__WEBPACK_IMPORTED_MODULE_2__["default"], {})
         })]
       })
     })
@@ -10877,32 +10918,63 @@ function AuthProvider(_ref) {
 
       return login;
     }(),
-    getAuth: function () {
-      var _getAuth = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+    logout: function () {
+      var _logout = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(fields) {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                _context2.next = 2;
+                return _services_auth__WEBPACK_IMPORTED_MODULE_3__["default"].logout();
+
+              case 2:
+                response = _context2.sent;
+                dispatch({
+                  type: _constants_auth__WEBPACK_IMPORTED_MODULE_2__.ACTION_LOGOUT,
+                  payload: response.data.data
+                });
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function logout(_x2) {
+        return _logout.apply(this, arguments);
+      }
+
+      return logout;
+    }(),
+    getAuth: function () {
+      var _getAuth = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
                 dispatch({
                   type: _constants_auth__WEBPACK_IMPORTED_MODULE_2__.ACTION_AUTH_LOADING
                 });
-                _context2.prev = 1;
-                _context2.next = 4;
+                _context3.prev = 1;
+                _context3.next = 4;
                 return _services_auth__WEBPACK_IMPORTED_MODULE_3__["default"].getAuth();
 
               case 4:
-                response = _context2.sent;
+                response = _context3.sent;
                 dispatch({
                   type: _constants_auth__WEBPACK_IMPORTED_MODULE_2__.ACTION_LOGIN,
                   payload: response.data.data
                 });
-                _context2.next = 12;
+                _context3.next = 12;
                 break;
 
               case 8:
-                _context2.prev = 8;
-                _context2.t0 = _context2["catch"](1);
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](1);
                 dispatch({
                   type: _constants_auth__WEBPACK_IMPORTED_MODULE_2__.ACTION_LOGOUT
                 });
@@ -10915,10 +10987,10 @@ function AuthProvider(_ref) {
 
               case 13:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, null, [[1, 8]]);
+        }, _callee3, null, [[1, 8]]);
       }));
 
       function getAuth() {
@@ -11699,6 +11771,32 @@ var auth = {
     }
 
     return getAuth;
+  }(),
+  logout: function () {
+    var _logout = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _csrf__WEBPACK_IMPORTED_MODULE_1__["default"].getCookie();
+
+            case 2:
+              return _context3.abrupt("return", _http__WEBPACK_IMPORTED_MODULE_2__["default"].post('/api/logout'));
+
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function logout() {
+      return _logout.apply(this, arguments);
+    }
+
+    return logout;
   }()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (auth);

@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../contexts/auth-context';
+import ButtonLogout from '../Button/ButtonLogout';
 import ModalAuth from '../ModalAuth/ModalAuth'
 
 const Navbar = () => {
@@ -50,9 +51,9 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className="flex items-center">
-                        {!state.isAuth && (
+                        {!state.isAuth ? (
                             <ModalAuth />
-                        )}
+                        ) : <ButtonLogout />}
                     </div>
                 </div>
             </div>

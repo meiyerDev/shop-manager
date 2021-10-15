@@ -79,6 +79,13 @@ function AuthProvider({ children }) {
                 toast.error("Ups! sorry, try again later")
             }
         },
+        logout: async (fields) => {
+            const response = await auth.logout();
+            dispatch({
+                type: ACTION_LOGOUT,
+                payload: response.data.data
+            });
+        },
         getAuth: async () => {
             dispatch({ type: ACTION_AUTH_LOADING })
             try {
