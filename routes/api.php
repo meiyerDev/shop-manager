@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', 'AuthController@login')->name('api.auth.login');
+Route::post('/signup', 'AuthController@signup')->name('api.auth.signup');
 
 Route::get('/products', 'ProductController@index')->name('api.products.index');
 

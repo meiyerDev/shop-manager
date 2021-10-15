@@ -11,6 +11,14 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /** @var UserRepositoryContract */
+    private $userRepository;
+
+    function __construct(UserRepositoryContract $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -27,6 +35,26 @@ class AuthController extends Controller
         throw ValidationException::withMessages([
             'email' => [__('These credentials do not match our records.')]
         ]);
+    }
+
+    public function signup(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|min:3',
+            'email' => 'required|email|unique:App\Models\User',
+            'password' => 'required|string|min:8|confirmed'
+        ]);
+
+        $user = $this->userRepository->create(
+            $request->only('name', 'email', 'password')
+        );
+
+        Auth::login($user, true);
+
+        return $this->successResponse(
+            new UserResource($user),
+            Response::HTTP_CREATED
+        );
     }
 
     public function getAuth()

@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class AuthApiTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * Test login successful.
@@ -114,5 +114,66 @@ class AuthApiTest extends TestCase
 
         $response = $this->postJson(route('api.auth.logout'));
         $response->assertNoContent();
+    }
+
+    /**
+     * Test logout user fail by unauthorized
+     * 
+     * @return void
+     */
+    public function test_logout_user_fail_by_unauthorized()
+    {
+        $response = $this->postJson(route('api.auth.logout'));
+        $response->assertUnauthorized();
+    }
+
+    /** 
+     * Test Signup successful
+     * 
+     * @return void
+     */
+    public function test_signup_user_successful()
+    {
+        $data = [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email(),
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ];
+
+        $response = $this->postJson(route('api.auth.signup'), $data);
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'email',
+                'is_admin'
+            ]
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'is_admin' => false,
+        ]);
+    }
+
+    /** 
+     * Test Signup successful
+     * 
+     * @return void
+     */
+    public function test_signup_user_fail_by_validations()
+    {
+        $data = [];
+
+        $response = $this->postJson(route('api.auth.signup'), $data);
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'name',
+            'email',
+            'password'
+        ], 'error');
     }
 }
