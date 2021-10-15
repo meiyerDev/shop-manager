@@ -38,7 +38,11 @@ npm install or yarn
 ```
 npm run dev or yarn run dev
 ```
-6. Start server:
+6. Running seeds:
+```
+php artisan db:seed
+```
+7. Start server:
 ```
 php artisan serve
 ```
@@ -71,6 +75,10 @@ sail up -d
 ```
 sail yarn run dev
 ```
+6. Running seeders:
+```
+sail artisan db:seed
+```
 
 But if you are only using [docker](https://docs.docker.com/get-started/), follow these steps:
 
@@ -86,6 +94,10 @@ docker-compose up -d
 5. Compile frontend:
 ```
 docker-compose exec -u sail shopmanager.api yarn run dev
+```
+6. Running seeders:
+```
+docker-compose exec -u sail shopmanager.api artisan db:seed
 ```
 
 ## Running tests
