@@ -15,52 +15,116 @@ Simple store where a customer can buy and manage the payment of their orders thr
 
 ### Without Sail or Docker
 
-- git clone https://github.com/themey99/shop-manager.git
-- cd shop-manager
-- composer install
-- cp .env.example .env
-- set your database config and **[PlacetoPay](https://placetopay.github.io/web-checkout-api-docs)** login and 
-- npm install or yarn
-- npm run dev or yarn run dev
-- php artisan serve
+1. Prerequisities
+
+- Clone project and enter to folder:
+```
+    git clone https://github.com/themey99/shop-manager.git && cd shop-manager
+```
+2. Install dependencies:
+```
+    composer install
+```
+3. Copy or Create .env:
+```
+    cp .env.example .env
+```
+3. Set your database config and **[PlacetoPay](https://placetopay.github.io/web-checkout-api-docs)** Login and TranKey
+4. Install frontend dependencies:
+```
+    npm install or yarn
+```
+5. Compile frontend:
+```
+    npm run dev or yarn run dev
+```
+6. Start server:
+```
+    php artisan serve
+```
 
 ### With Sail or Docker
 
-- git clone https://github.com/themey99/shop-manager.git
-- cd shop-manager
-- docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php80-composer:latest composer install --ignore-platform-reqs
+1. Prerequisities
+
+- Install docker in your workstation
+- Clone project and enter to folder:
+```
+    git clone https://github.com/themey99/shop-manager.git && cd shop-manager
+```
+2. Install dependencies:
+```
+    docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php80-composer:latest composer install --ignore-platform-reqs
+```
 
 If you are using [sail](https://laravel.com/docs/8.x/sail), only follow these steps:
 
-- sail build
-- sail up -d
-- sail yarn run dev
+3. Build image:
+```
+    sail build
+```
+4. Start containers:
+```
+    sail up -d
+```
+5. Compile frontend:
+```
+    sail yarn run dev
+```
 
 But if you are only using [docker](https://docs.docker.com/get-started/), follow these steps:
 
-- export WWWUSER="your $WWWUSER or $UID"
-- export WWWGROUP="your $WWWGROUP or $(id -g)"
-- docker-compose up -d
-- docker-compose exec -u sail shopmanager.api yarn run dev
+3. Set environment:
+```
+    export WWWUSER="your $WWWUSER or $UID"
+    export WWWGROUP="your $WWWGROUP or $(id -g)"
+```
+4. Start containers:
+```
+    docker-compose up -d
+```
+5. Compile frontend:
+```
+    docker-compose exec -u sail shopmanager.api yarn run dev
+```
 
 ## Running tests
 
-This project require [sqlite](https://www.sqlite.org/download.html) to run tests.
+1. Prerequisities
 
-- cd shop-manager
+- Install [sqlite](https://www.sqlite.org/download.html)
+- Enter to root project folder
 
 If you aren't using [docker](https://docs.docker.com/get-started/) or [sail](https://laravel.com/docs/8.x/sail), follow these steps:
 
-- php artisan test (--filter is optional to filter by some tests)
+2. Eject tests:
+```
+    php artisan test # (--filter is optional to filter by some tests)
+```
 
 If you are using [sail](https://laravel.com/docs/8.x/sail), follow these steps:
 
-- sail up -d
-- sail test (--filter is optional to filter by some tests)
+2. Start containers:
+```
+    sail up -d
+```
+3. Eject tests:
+```
+    sail test # (--filter is optional to filter by some tests)
+```
 
 But, if you are using [docker](https://docs.docker.com/get-started/), follow these steps:
 
-- export WWWUSER="your $WWWUSER or $UID"
-- export WWWGROUP="your $WWWGROUP or $(id -g)"
-- docker-compose up -d
-- docker-compose exec -u sail shopmanager.api php artisan test (--filter is optional to filter by some tests)
+2. Set environment:
+```
+    export WWWUSER="your $WWWUSER or $UID"
+    export WWWGROUP="your $WWWGROUP or $(id -g)"
+```
+3. Start containers:
+```
+    docker-compose up -d
+```
+4. Eject tests:
+```
+    docker-compose exec -u sail shopmanager.api php artisan test # (--filter is optional to filter by some tests)
+```
