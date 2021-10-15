@@ -9,6 +9,14 @@ const orders = {
     getAuthOrders: async () => {
         await csrf.getCookie()
         return http.get('/api/orders');
+    },
+    getOrderById: async (id) => {
+        await csrf.getCookie()
+        return http.get(`/api/orders/${id}`);
+    },
+    createPlacetoPay: async (id) => {
+        await csrf.getCookie();
+        return http.post(`/api/orders/${id}/placeto-pay`);
     }
 };
 

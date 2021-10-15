@@ -2,12 +2,7 @@ import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import ButtonPrimary from '../../components/Button/ButtonPrimary';
 import { useOrder } from '../../contexts/order-context'
-
-const ORDER_STATUS_NAMES = {
-    CREATED: 'pendiente',
-    PAYED: 'pagado',
-    REJECTED: 'rechazado',
-}
+import { ORDER_STATUS_NAMES } from '../../utils/order-status';
 
 const ListOrdersView = () => {
     const { state, actions } = useOrder();
@@ -28,7 +23,7 @@ const ListOrdersView = () => {
                         <th className="border p-3 w-1/6">Status</th>
                         <th className="border p-3 w-1/6">Amount</th>
                         <th className="border p-3 w-1/6">Updated At</th>
-                        <th className="border p-3 w-1/12"></th>
+                        <th className="border p-3 w-1/6"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +34,7 @@ const ListOrdersView = () => {
                             <td className="p-2 border">{ORDER_STATUS_NAMES[order.status]}</td>
                             <td className="p-2 border">{order.amount_total}</td>
                             <td className="p-2 border">{order.updated_at}</td>
-                            <td className="p-2 border"><ButtonPrimary onClick={() => history.push(`/orders/${order.id}`)} text="Ver" /></td>
+                            <td className="p-2 border text-center"><ButtonPrimary onClick={() => history.push(`/orders/${order.id}`)} text="Details" /></td>
                         </tr>
                     ))}
                 </tbody>

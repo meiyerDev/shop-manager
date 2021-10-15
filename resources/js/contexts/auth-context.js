@@ -1,7 +1,10 @@
 import { createContext, useContext, useReducer } from "react";
 import {
     ACTION_LOGIN,
-    ACTION_SIGNUP
+    ACTION_SIGNUP,
+    ACTION_LOGOUT,
+    ACTION_AUTH_LOADED,
+    ACTION_AUTH_LOADING,
 } from '../constants/auth';
 import auth from "../services/auth";
 import { toast } from "react-toastify";
@@ -16,6 +19,22 @@ function authReducer(state, action) {
                 isAuth: true,
                 user: action.payload
             };
+        case ACTION_LOGOUT:
+            return {
+                ...state,
+                isAuth: false,
+                user: null
+            };
+        case ACTION_AUTH_LOADING:
+            return {
+                ...state,
+                loading: true,
+            }
+        case ACTION_AUTH_LOADED:
+            return {
+                ...state,
+                loading: false
+            }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);
         }
@@ -25,6 +44,7 @@ function authReducer(state, action) {
 function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(authReducer, {
         isAuth: false,
+        loading: true,
         user: null,
         errors: {
             email: '',
@@ -58,6 +78,20 @@ function AuthProvider({ children }) {
                 }
                 toast.error("Ups! sorry, try again later")
             }
+        },
+        getAuth: async () => {
+            dispatch({ type: ACTION_AUTH_LOADING })
+            try {
+                const response = await auth.getAuth();
+                dispatch({
+                    type: ACTION_LOGIN,
+                    payload: response.data.data
+                });
+            } catch (err) {
+                dispatch({ type: ACTION_LOGOUT });
+                toast.error("Ups! sorry, try again later")
+            }
+            dispatch({ type: ACTION_AUTH_LOADED })
         }
     }
 
