@@ -31,6 +31,7 @@ class AuthApiTest extends TestCase
                 'id',
                 'name',
                 'email',
+                'is_admin',
             ]
         ]);
     }
@@ -85,7 +86,7 @@ class AuthApiTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure([
             'data' => [
-                'id', 'name', 'email'
+                'id', 'name', 'email', 'is_admin'
             ]
         ]);
     }
