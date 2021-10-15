@@ -101,4 +101,18 @@ class AuthApiTest extends TestCase
         $response = $this->getJson(route('api.auth.get-auth'));
         $response->assertUnauthorized();
     }
+
+    /**
+     * Test logout user
+     * 
+     * @return void
+     */
+    public function test_logout_user()
+    {
+        $user = $this->createUserClient();
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson(route('api.auth.logout'));
+        $response->assertNoContent();
+    }
 }

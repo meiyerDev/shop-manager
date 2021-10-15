@@ -5,19 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User\UserResource;
 use App\Repositories\UserRepositoryContract;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /** @var UserRepositoryContract */
-    private $userRepository;
-
-    function __construct(UserRepositoryContract $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     public function login(Request $request)
     {
         $request->validate([
@@ -43,5 +36,12 @@ class AuthController extends Controller
         return $this->successResponse(
             new UserResource($user)
         );
+    }
+
+    public function logout()
+    {
+        Auth::guard('web')->logout();
+
+        return $this->successResponse([], Response::HTTP_NO_CONTENT);
     }
 }
